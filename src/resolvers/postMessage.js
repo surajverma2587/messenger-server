@@ -1,6 +1,8 @@
 const { ApolloError } = require("apollo-server-core");
+const { v4: uuidv4 } = require("uuid");
 
 const { Chat } = require("../models");
+const Message = require("../models/Message");
 const pubsub = require("./pubSub");
 
 const postMessage = async (_, { input }, { loggedInUser }) => {
@@ -10,6 +12,7 @@ const postMessage = async (_, { input }, { loggedInUser }) => {
         isFromSender: input.isFromSender,
         isFromReceiver: input.isFromReceiver,
         text: input.text,
+        messageId: uuidv4(),
       };
 
       await Chat.findByIdAndUpdate(input.chatId, {

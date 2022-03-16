@@ -1,4 +1,6 @@
 const chat = require("./chat");
+const chats = require("./chats");
+const users = require("./users");
 const signUp = require("./signUp");
 const login = require("./login");
 const createChat = require("./createChat");
@@ -7,7 +9,9 @@ const pubsub = require("./pubSub");
 
 const resolvers = {
   Query: {
+    users,
     chat,
+    chats,
   },
   Mutation: {
     signUp,

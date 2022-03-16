@@ -1,6 +1,10 @@
 const { Schema } = require("mongoose");
 
 const messageSchema = {
+  messageId: {
+    type: String,
+    required: true,
+  },
   isFromSender: {
     type: Boolean,
     default: false,

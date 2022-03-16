@@ -5,6 +5,18 @@ const { Chat } = require("../models");
 const createChat = async (_, { input }, { loggedInUser }) => {
   try {
     if (loggedInUser) {
+      const existingChat = await Chat.findOne({
+        sender: input.sender,
+        receiver: input.receiver,
+      })
+        .populate("sender")
+        .populate("receiver");
+
+      if (existingChat) {
+        console.log("existing chat");
+        return existingChat;
+      }
+
       const chat = await Chat.create(input);
 
       const newChat = await Chat.findById(chat._id)

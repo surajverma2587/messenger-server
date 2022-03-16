@@ -2,6 +2,7 @@ const { gql } = require("apollo-server-core");
 
 const typeDefs = gql`
   type Message {
+    messageId: ID!
     isFromSender: Boolean!
     isFromReceiver: Boolean!
     text: String!
@@ -22,13 +23,19 @@ const typeDefs = gql`
     email: String!
   }
 
+  type SignUpSuccess {
+    success: Boolean!
+  }
+
   type Auth {
     token: ID!
     user: User!
   }
 
   type Query {
-    chat(chatId: ID!): Chat!
+    users: [User]
+    chats: [Chat]
+    chat(chatId: ID): Chat!
   }
 
   input LoginInput {
@@ -58,7 +65,7 @@ const typeDefs = gql`
 
   type Mutation {
     login(input: LoginInput!): Auth!
-    signUp(input: SignUpInput!): Auth!
+    signUp(input: SignUpInput!): SignUpSuccess!
     createChat(input: CreateChatInput!): Chat!
     postMessage(input: PostMessageInput!): Message!
   }

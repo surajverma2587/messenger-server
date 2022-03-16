@@ -1,15 +1,15 @@
 const { Chat } = require("../models");
 
-const chat = async (_, { chatId }, { loggedInUser }) => {
+const chats = async (_, __, { loggedInUser }) => {
   try {
     if (loggedInUser) {
-      if (chatId) {
-        const chat = await Chat.findById(chatId)
-          .populate("sender")
-          .populate("receiver");
+      const chats = await Chat.find({
+        $or: [{ sender: loggedInUser.id }, { receiver: loggedInUser.id }],
+      })
+        .populate("sender")
+        .populate("receiver");
 
-        return chat;
-      }
+      return chats;
     } else {
       console.log(`[ERROR]: Unauthorised operation | User is not logged in`);
       throw new ApolloError("Unauthorised operation");
@@ -20,4 +20,4 @@ const chat = async (_, { chatId }, { loggedInUser }) => {
   }
 };
 
-module.exports = chat;
+module.exports = chats;
